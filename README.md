@@ -63,7 +63,7 @@ In this project, we implement two of the widely used algorithms used in GVGP (Ge
 </table>
 
 ### Method
-We evaluated the NEAT algorithm on two models of game,
+We evaluated the NEAT algorithm on two models of the game,
 1. The first model was a game with constant game speed.
 2. The second model was a game with increasing game speed. 
 > More details can be found in the [report](DinoML.pdf)
