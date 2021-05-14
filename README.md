@@ -20,11 +20,42 @@
 In this project, we implement two of the widely used algorithms used in GVGP (General Video Game Playing) namely, **Deep Q-Learning** and **Neural Evolution of Augmenting Topologies (NEAT)** on the Chrome browser's Dino Run game. 
 
 ## Deep Q-Learning
-To play Dino game using the trained model, simply run the `.ipynb` [file](ReinforcementLearning/DinoPygameRL.ipynb)
+To play Dino game using the trained model, simply run the `DinoPygameRL.ipynb` [file](ReinforcementLearning/DinoPygameRL.ipynb)
 ### Our contribution
 #### 1. Environment Class
 
+<p align="center">
+<img src="media/env.png" alt="drawing"/>
+<br>Custom Environment API
+</div>
+</p>
 
+#### 2. Redefining States
+A state should be a snapshot of the game from which the Dino should be able to take one of the possible actions. So a Dino midway in air after a jump action, is not a state. We changed the code accordingly.
+
+<p align="left">
+<img src="media/prevstate.png" alt="drawing"/>
+<br>State before a jump action
+</div>
+</p>
+
+<p align="left">
+<img src="media/next_state.png" alt="drawing"/>
+<br>State after a jump action
+</div>
+</p>
+
+### 3. Results
+
+<p align="center">
+<img src="media/score.png" alt="drawing"/>
+</div> Evolution of score per game 
+</p>
+
+<p align="center">
+<img src="media/loss_comparison2.png" alt="drawing"/>
+</div> Evolution of loss with time
+</p>
 
 ## NEAT
 ### Hyperparameters
