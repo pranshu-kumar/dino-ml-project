@@ -92,7 +92,7 @@ We evaluated the NEAT algorithm on two models of game,
 
 #### 4. Gene (ANN) of the winner genome
 > Red arrows - Postive Correlation
-  Green Arrows - Negative Correlation 
+> Green Arrows - Negative Correlation 
 <p align="center">
 <img src="media/winnernet1.png" width="500" alt="drawing"/>
 <br>Gene (ANN) of the winner genome.
