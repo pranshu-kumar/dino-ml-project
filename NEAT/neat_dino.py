@@ -1,7 +1,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # References -
 # 1. https://github.com/codewmax/NEAT-ChromeDinosaur
-# 2. 
+# 2. https://github.com/Paperspace/DinoRunTutorial
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
