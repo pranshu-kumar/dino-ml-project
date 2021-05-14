@@ -74,6 +74,7 @@ We evaluated the NEAT algorithm on two models of game,
 </div>
 </p>
 
+
 #### 2. Game with constant game speed
 <p align="center">
 <img src="media/neat_conspeed_score.png" alt="drawing"/>
