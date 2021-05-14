@@ -1,3 +1,11 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# References -
+# 1. https://github.com/codewmax/NEAT-ChromeDinosaur
+# 2. 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+# Import libraries
 import pygame
 from pygame import *
 import os
@@ -12,11 +20,15 @@ import time
 from visualize import *
 from neat.math_util import softmax
 import numpy as np
-import csv 
+import csv
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Global pygame functions used in the game
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+# Function to load image (pygame surface object)
 def load_image(name, sizex=-1, sizey=-1, colorkey=None,):
-    
+
     fullname = os.path.join('templates', name)
     image = pygame.image.load(fullname)
     image = image.convert()
@@ -30,6 +42,8 @@ def load_image(name, sizex=-1, sizey=-1, colorkey=None,):
 
     return (image, image.get_rect())
 
+
+# Function to load sprite sheet (array of pygame surface objects) from media files
 def load_sprite_sheet(
         sheetname,
         nx,
@@ -43,11 +57,9 @@ def load_sprite_sheet(
     sheet = sheet.convert()
 
     sheet_rect = sheet.get_rect()
-    # print(sheet_rect)
 
     templates = []
 
-    # nx subimages
     sizex = sheet_rect.width/nx
     sizey = sheet_rect.height/ny
 
@@ -67,7 +79,6 @@ def load_sprite_sheet(
                 image = pygame.transform.scale(image, (scalex, scaley))
 
             templates.append(image)
-            # print(len(templates))
 
     # get rectangle of one sub_image
     sprite_rect = templates[0].get_rect()
@@ -75,11 +86,15 @@ def load_sprite_sheet(
     return templates, sprite_rect
 
 
-
-
+# Initialise pygame
 pygame.init()
 
-# Global Constants
+
+
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Global constraints used in the game
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 SCREEN_HEIGHT = 600
 SCREEN_WIDTH = 600
 SCREEN = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -90,25 +105,34 @@ RUNNING = [dino_imgs[2], dino_imgs[3]]
 
 JUMPING = dino_imgs[0]
 
-DUCKING_IMGS,_ =  load_sprite_sheet('dino_ducking.png', 2, 1, 59, 40, -1)
+DUCKING_IMGS, _ = load_sprite_sheet('dino_ducking.png', 2, 1, 59, 40, -1)
 
 small_cactus_imgs, _ = load_sprite_sheet('cacti-small.png', 3, 1, 40, 40, -1)
 big_cactus_imgs, _ = load_sprite_sheet('cacti-big.png', 3, 1, 40, 40, -1)
-SMALL_CACTUS = [small_cactus_imgs[0], small_cactus_imgs[1], small_cactus_imgs[2]]
+SMALL_CACTUS = [small_cactus_imgs[0],
+                small_cactus_imgs[1], small_cactus_imgs[2]]
 LARGE_CACTUS = [big_cactus_imgs[0], big_cactus_imgs[1], big_cactus_imgs[2]]
 
 BIRD_IMGS, _ = load_sprite_sheet('ptera.png', 2, 1, 46, 40, -1)
 
-BG, _= load_image('ground.png', -1, -1, -1)
+BG, _ = load_image('ground.png', -1, -1, -1)
 
 FONT = pygame.font.Font('freesansbold.ttf', 20)
 
 score_df = {
-    "generation":[],
-    'score':[],
-    'time':[]
+    "generation": [],
+    'score': [],
+    'time': []
 }
 
+
+
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Classes to define the various elements of the Dino Game
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# Class for Dino in Dino Run
 class Dinosaur:
     X_POS = 80
     Y_POS = 345
@@ -120,8 +144,10 @@ class Dinosaur:
         # self.dino_run = True
         # self.dino_jump = False
         # self.jump_vel = self.JUMP_VEL
-        self.rect = pygame.Rect(self.X_POS, self.Y_POS, img.get_width(), img.get_height())
-        self.color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+        self.rect = pygame.Rect(self.X_POS, self.Y_POS,
+                                img.get_width(), img.get_height())
+        self.color = (random.randint(0, 255), random.randint(
+            0, 255), random.randint(0, 255))
         # self.step_index = 0
         self.duck_img = DUCKING_IMGS
         self.run_img = RUNNING
@@ -174,11 +200,14 @@ class Dinosaur:
 
     def draw(self, SCREEN):
         SCREEN.blit(self.image, (self.rect.x, self.rect.y))
-        pygame.draw.rect(SCREEN, self.color, (self.rect.x, self.rect.y, self.rect.width, self.rect.height), 2)
+        pygame.draw.rect(SCREEN, self.color, (self.rect.x,
+                         self.rect.y, self.rect.width, self.rect.height), 2)
         for obstacle in obstacles:
-            pygame.draw.line(SCREEN, self.color, (self.rect.x + 54, self.rect.y + 12), obstacle.rect.center, 2)
+            pygame.draw.line(SCREEN, self.color, (self.rect.x +
+                             54, self.rect.y + 12), obstacle.rect.center, 2)
 
 
+# Class for Obstacle (Ptera and Cactus) in Dino Run
 class Obstacle:
     def __init__(self, image, number_of_cacti):
         self.image = image
@@ -195,18 +224,21 @@ class Obstacle:
         SCREEN.blit(self.image[self.type], self.rect)
 
 
+# Class for Small Cactus in Dino Run
 class SmallCactus(Obstacle):
     def __init__(self, image, number_of_cacti):
         super().__init__(image, number_of_cacti)
         self.rect.y = 350
 
 
+# Class for Large Cactus in Dino Run
 class LargeCactus(Obstacle):
     def __init__(self, image, number_of_cacti):
         super().__init__(image, number_of_cacti)
         self.rect.y = 350
 
 
+# Class for bird (Ptera) in Dino Run
 class Bird(Obstacle):
     def __init__(self, image):
         self.type = 0
@@ -220,6 +252,14 @@ class Bird(Obstacle):
         SCREEN.blit(self.image[self.index//5], self.rect)
         self.index += 1
 
+
+
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# NEAT Algorithm Implementation
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# Function to remove genome from the set of genomes after they have died
 def remove(index):
     global max_fitness, winner
 
@@ -235,20 +275,18 @@ def remove(index):
     ge.pop(index)
     nets.pop(index)
 
-    # print("Winner:", winner)
-    # winner_net = nn.create_feed_forward_phenotype(winner)
-    # draw_net(config, winner, view=True, filename='winnernet.svg')
 
-
+# Function to compute the eucledian distance
 def distance(pos_a, pos_b):
     dx = pos_a[0]-pos_b[0]
     dy = pos_a[1]-pos_b[1]
     return math.sqrt(dx**2+dy**2)
 
 
+# Function to run the NEAT algorithm
 def eval_genomes(genomes, config):
     global game_speed, x_pos_bg, y_pos_bg, obstacles, dinosaurs, ge, nets, points, counter, n
-    # gen_number = 0
+
     clock = pygame.time.Clock()
     points = 0
     counter = 0
@@ -262,10 +300,6 @@ def eval_genomes(genomes, config):
     y_pos_bg = 380
     game_speed = 10
 
-    
-    
-    # print(genomes)
-
     for genome_id, genome in genomes:
         dinosaurs.append(Dinosaur())
         ge.append(genome)
@@ -275,37 +309,42 @@ def eval_genomes(genomes, config):
         genome.fitness = 0
         # print("fitness:", genome.fitness)
 
+    # Function to update score and game speed
     def score():
         global points, game_speed, counter, n
-        
+
         if counter % n == n-1:
             points += 1
         if counter % 100 == 0:
             game_speed += 1
-            n-=1
+            n -= 1
             if n == 1:
                 n = 2
         text = FONT.render(f'Points:  {str(points)}', True, (0, 0, 0))
         SCREEN.blit(text, (450, 50))
-        
+
         if points % 50 == 0:
             row = [pop.generation+1, points]
             with open("scores_common_neat.csv", 'a') as csvfile:
-                csvwriter = csv.writer(csvfile) 
+                csvwriter = csv.writer(csvfile)
                 csvwriter.writerow(row)
             csvfile.close()
 
-           
+    # Function to update statistics of the NEAT algorithm
     def statistics():
         global dinosaurs, game_speed, ge
-        text_1 = FONT.render(f'Dinosaurs Alive:  {str(len(dinosaurs))}', True, (0, 0, 0))
-        text_2 = FONT.render(f'Generation:  {pop.generation+1}', True, (0, 0, 0))
-        text_3 = FONT.render(f'Game Speed:  {str(game_speed)}', True, (0, 0, 0))
+        text_1 = FONT.render(
+            f'Dinosaurs Alive:  {str(len(dinosaurs))}', True, (0, 0, 0))
+        text_2 = FONT.render(
+            f'Generation:  {pop.generation+1}', True, (0, 0, 0))
+        text_3 = FONT.render(
+            f'Game Speed:  {str(game_speed)}', True, (0, 0, 0))
 
         SCREEN.blit(text_1, (50, 450))
         SCREEN.blit(text_2, (50, 480))
         SCREEN.blit(text_3, (50, 510))
 
+    # Function to update background
     def background():
         global x_pos_bg, y_pos_bg
         image_width = BG.get_width()
@@ -331,20 +370,23 @@ def eval_genomes(genomes, config):
         counter += 1
         if len(dinosaurs) == 0:
             break
-        
+
+        # Logic to update obstacles
         if len(obstacles) == 0:
             rand_int = random.randint(0, 2)
             if rand_int == 0:
-                obstacles.append(SmallCactus(SMALL_CACTUS, random.randint(1,2)))
+                obstacles.append(SmallCactus(
+                    SMALL_CACTUS, random.randint(1, 2)))
                 obstacle_type = 0
             elif rand_int == 1:
-                obstacles.append(LargeCactus(LARGE_CACTUS, random.randint(1, 2)))
+                obstacles.append(LargeCactus(
+                    LARGE_CACTUS, random.randint(1, 2)))
                 obstacle_type = 0
             else:
                 obstacles.append(Bird(BIRD_IMGS))
                 obstacle_type = 1
 
-
+        # Logic for collision of dino and obstacle
         for obstacle in obstacles:
             obstacle.draw(SCREEN)
             obstacle.update()
@@ -355,11 +397,13 @@ def eval_genomes(genomes, config):
                 else:
                     ge[i].fitness += 1
 
+        # Get the output from the gene (ANN) after feeding necessary inputs
         for i, dinosaur in enumerate(dinosaurs):
             output = nets[i].activate((dinosaur.rect.y,
                                        distance((dinosaur.rect.x, dinosaur.rect.y),
-                                        obstacle.rect.midtop), obstacle.rect.y, obstacle_type, game_speed))
-            
+                                                obstacle.rect.midtop), obstacle.rect.y, obstacle_type, game_speed))
+
+            # Perform duck or jump according to the ouput
             if output[0] > 0.5 and dinosaur.rect.y == dinosaur.Y_POS:
                 dinosaur.dino_jump = True
                 dinosaur.dino_run = False
@@ -373,17 +417,14 @@ def eval_genomes(genomes, config):
                 dinosaur.dino_jump = False
                 dinosaur.dino_duck = False
                 dinosaur.dino_run = True
-                
-
 
         statistics()
         score()
         # print(genome.fitness)
-       
+
         background()
         clock.tick(30)
         pygame.display.update()
-
 
 
 # Setup the NEAT Neural Network
@@ -397,33 +438,28 @@ def run(config_path):
         config_path
     )
 
-    # neat.visualize.draw_net(config, winner, True)
-    # neat.visualize.plot_stats(stats, ylog=False, view=True)
-    # neat.visualize.plot_species(stats, view=True)
     pop = neat.Population(config)
     winner = pop.run(eval_genomes, 50)
     node_names = {}
-    names = ['Dino Y', 'Dist from Obstacle', 'Obstacle Y', 'Obstacle Type', 'Game Speed']
+    names = ['Dino Y', 'Dist from Obstacle',
+             'Obstacle Y', 'Obstacle Type', 'Game Speed']
     n = 0
     for k in config.genome_config.input_keys:
         node_names[k] = names[n]
         n += 1
 
-    
-    draw_net(config, winner, True,fmt='png', filename="winnernet", node_names=node_names)
+    draw_net(config, winner, True, fmt='png',
+             filename="winnernet", node_names=node_names)
 
-    
-    # plt.show()
-    
+
 
 if __name__ == '__main__':
     local_dir = os.path.dirname(__file__)
     config_path = os.path.join(local_dir, 'config.txt')
-    
+
     fields = ['generation', 'score']
     with open("scores_common_neat.csv", 'w') as csvfile:
-        csvwriter = csv.writer(csvfile) 
+        csvwriter = csv.writer(csvfile)
         csvwriter.writerow(fields)
 
     run(config_path)
-
