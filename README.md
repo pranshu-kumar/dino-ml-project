@@ -14,7 +14,27 @@
 
 > This is our final project submission for the course **ES654 | Machine Learning** offered at IIT Gandhinagar, India. 
 
+## Contents
+  * [:pencil: Introduction](#introduction)
+  * [:robot: Deep Q-Learning](#deep-q-learning)
+    + [:clipboard: The Deep Q-Learning Framework](#the-deep-q-learning-framework)
+    + [ :black_nib: Our contribution](#our-contribution)
+      - [1. Environment Class](#1-environment-class)
+      - [2. Redefining States](#2-redefining-states)
+    + [:bar_chart: Results](#results)
+  * [:robot: NEAT](#neat)
+    + [:wrench: Hyperparameters](#hyperparameters)
+    + [:pencil2: Gene (ANN) Structure](#gene--ann--structure)
+    + [:page_with_curl: Method](#method)
+    + [:bar_chart: Results](#results-1)
+      - [1. *pygame* implementation of NEAT](#1--pygame--implementation-of-neat)
+      - [2. Game with constant game speed](#2-game-with-constant-game-speed)
+      - [3. Game with increasing game speed](#3-game-with-increasing-game-speed)
+      - [4. Gene (ANN) of the winner genome](#4-gene--ann--of-the-winner-genome)
+  * [:mag: References](#references)
+
 ---
+
 
 ## Introduction
 In this project, we implement two of the widely used algorithms used in GVGP (General Video Game Playing) namely, **Deep Q-Learning** and **Neural Evolution of Augmenting Topologies (NEAT)** on the Chrome browser's Dino Run game. 
@@ -24,18 +44,24 @@ To play Dino game using the trained model, simply run the `DinoPygameRL.ipynb` [
 
 ### The Deep Q-Learning Framework
 <p align="center">
-<img src="media/arch.png" alt="drawing"/>
+<img src="media/arch.png" width="500" alt="drawing"/>
 </div>
 </p>
 
 ### Our contribution
 #### 1. Environment Class
-
-<p align="center">
-<img src="media/env.png" alt="drawing"/>
-<br>Custom Environment API
-</div>
-</p>
+```python
+class Environment():
+    def __init__(self, param):
+        # initialize player and obstacle objects, etc...
+    def update(self, param):
+        # update a single frame
+    def render(self, param):
+        # take some action in current state and go to next state
+        # for a jump function, call update x times
+        # for a run action, call update only once
+        # return the next state, reward gameover flag 
+```
 
 #### 2. Redefining States
 A state should be a snapshot of the game from which the Dino should be able to take one of the possible actions. So a Dino midway in air after a jump action, is not a state. We changed the code accordingly.
