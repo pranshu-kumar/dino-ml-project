@@ -45,16 +45,18 @@ A state should be a snapshot of the game from which the Dino should be able to t
 </div>
 </p>
 
-### 3. Results
+### Results
 
 <p align="center">
 <img src="media/score.png" alt="drawing"/>
-</div> Evolution of score per game 
+<br> Evolution of score per game 
+</div> 
 </p>
 
 <p align="center">
 <img src="media/loss_comparison2.png" alt="drawing"/>
-</div> Evolution of loss with time
+<br> Evolution of loss with time
+</div> 
 </p>
 
 ## NEAT
