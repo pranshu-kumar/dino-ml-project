@@ -1,8 +1,8 @@
 # DinoML | Reinforcement Learning and Neuroevolution on the Chrome Dino Game
 
 <p align="center">
-<img src="media/Chrome_Dinosaur_Game.png" alt="drawing"/>
-<br>Chrome Dino Run Game
+<img src="media/gameplay.gif" alt="drawing"/>
+<br>Trained Model Gameplay
 </div>
 </p>
 
@@ -21,6 +21,13 @@ In this project, we implement two of the widely used algorithms used in GVGP (Ge
 
 ## Deep Q-Learning
 To play Dino game using the trained model, simply run the `DinoPygameRL.ipynb` [file](ReinforcementLearning/DinoPygameRL.ipynb)
+
+### The Deep Q-Learning Framework
+<p align="center">
+<img src="media/arch.png" alt="drawing"/>
+</div>
+</p>
+
 ### Our contribution
 #### 1. Environment Class
 
