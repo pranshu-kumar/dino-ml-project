@@ -77,14 +77,14 @@ We evaluated the NEAT algorithm on two models of game,
 
 #### 2. Game with constant game speed
 <p align="center">
-<img src="media/neat_conspeed_score.png" alt="drawing"/>
+<img src="media/neat_conspeed_score.png" width="500" alt="drawing"/>
 <br>Score of the fittest genome in the generation
 </div>
 </p>
 
 #### 3. Game with increasing game speed
 <p align="center">
-<img src="media/scorevsgen.jpeg" alt="drawing"/>
+<img src="media/scorevsgen.jpeg" width="500" alt="drawing"/>
 <br>Max Score - Score of the fittest genome in the generation
 <br> Mean Score - Mean score of all the genomes in the generation
 </div>
@@ -94,7 +94,7 @@ We evaluated the NEAT algorithm on two models of game,
 > Red arrows - Postive Correlation
   Green Arrows - Negative Correlation 
 <p align="center">
-<img src="media/winnernet1.png" alt="drawing"/>
+<img src="media/winnernet1.png" width="500" alt="drawing"/>
 <br>Gene (ANN) of the winner genome.
 </div>
 </p>
