@@ -70,7 +70,7 @@ We evaluated the NEAT algorithm on two models of the game,
 ### Results
 #### 1. *pygame* implementation of NEAT
 <p align="center">
-<img src="media/dinoneat.png" alt="drawing"/>
+<img src="media/dinoneat.png" width="300" alt="drawing"/>
 </div>
 </p>
 
