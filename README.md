@@ -20,7 +20,7 @@
 In this project, we implement two of the widely used algorithms used in GVGP (General Video Game Playing) namely, **Deep Q-Learning** and **Neural Evolution of Augmenting Topologies (NEAT)** on the Chrome browser's Dino Run game. 
 
 ## Deep Q-Learning
-To play Dino game using the trained model, simply run the .ipynb file
+To play Dino game using the trained model, simply run the `.ipynb` [file](ReinforcementLearning/DinoPygameRL.ipynb)
 ### Our contribution
 #### 1. Environment Class
 
@@ -66,6 +66,12 @@ To play Dino game using the trained model, simply run the .ipynb file
   </tr>
 </tbody>
 </table>
+
+### Gene (ANN) Structure
+<p align="center">
+<img src="media/nn_struct_dino_run.png" width="500" alt="drawing"/>
+</div>
+</p>
 
 ### Method
 We evaluated the NEAT algorithm on two models of the game,
